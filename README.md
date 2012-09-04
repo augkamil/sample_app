@@ -1,2 +1,1 @@
-sample_app
-==========
+#Just for fun :o)
