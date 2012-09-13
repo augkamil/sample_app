@@ -4,6 +4,13 @@ describe "Authentication" do
 
   subject { page }
 
+  describe "not signin" do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it { should_not have_link('Profile',  href: user_path(user)) }
+    it { should_not have_link('Settings', href: edit_user_path(user)) }
+  end
+
   describe "signin" do
     before { visit signin_path }
 
@@ -88,9 +95,7 @@ describe "Authentication" do
       describe "when attempting to visit a protected page" do
         before do
           visit edit_user_path(user)
-          fill_in "Email",    with: user.email
-          fill_in "Password", with: user.password
-          click_button "Sign in"
+          sign_in user
         end
 
         describe "after signin in" do
@@ -99,6 +104,19 @@ describe "Authentication" do
             page.should have_selector('title', text: "Edit user")
           end
         end 
+
+        describe "when signing in again" do
+          before do
+            visit signin_path
+            fill_in "Email",    with: user.email
+            fill_in "Password", with: user.password
+            click_button "Sign in"
+          end
+
+          it "should render the default (profile) page" do
+            page.should have_selector('title', text: user.name) 
+          end
+        end
       end
     end
 

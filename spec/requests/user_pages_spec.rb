@@ -59,11 +59,27 @@ describe "User pages" do
     end
   end
 
-  describe "signup" do
-    before { visit signup_path }
+  describe "sing in user calls action new" do
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+      sign_in user
+      get '/users/new'
+    end
 
+    specify {response.should redirect_to(root_path)}
 
-  end
+  end 
+
+  describe "sing in user calls action create" do
+    let(:user) { FactoryGirl.create(:user) }
+    before do
+      sign_in user
+      post '/users'
+    end
+
+    specify {response.should redirect_to(root_path)}
+
+  end 
 
   describe "edit" do
     let(:user) { FactoryGirl.create(:user) }
