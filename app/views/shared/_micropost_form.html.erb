@@ -1,7 +1,21 @@
 <%= form_for(@micropost) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
-  <div class="field">
-    <%= f.text_area :content, placeholder: "Compose new micropost..." %>
+  <script>
+  function updateCountdown() {
+    // 140 is the max message length
+    var remaining = 140 - jQuery('.message').val().length;
+    jQuery('.countdown').text(remaining + ' characters remaining.');
+  }
+
+  jQuery(document).ready(function($) {
+    updateCountdown();
+    $('.message').change(updateCountdown);
+    $('.message').keyup(updateCountdown);
+  });
+  </script>
+  <div>
+    <%= f.text_area :content, placeholder: "Compose new micropost...", class: "message", rows: "4", cols: "30"%>
   </div>
+  <span class="countdown timestamp"></span>
   <%= f.submit "Post", class: "btn btn-large btn-primary" %>
 <% end %>

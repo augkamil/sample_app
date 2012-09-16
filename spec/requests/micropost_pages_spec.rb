@@ -40,5 +40,37 @@ describe "Micropost Pages" do
         expect { click_link "delete" }.to change(Micropost, :count).by(-1)
       end
     end
+
+    describe "as a user" do
+      let!(:user2) {FactoryGirl.create(:user)}
+      let!(:new_micropost) {FactoryGirl.create(:micropost, user: user2)}
+      before do
+        visit user_path(user2)
+      end
+
+      it { should_not have_link('delete') }
+
+      it "should not be able to delete other users micropost" do
+        expect { delete micropost_path(new_micropost) }.not_to change(Micropost, :count)
+      end
+    end
   end
+
+  describe "pagination" do
+
+      before do
+        50.times do 
+          FactoryGirl.create(:micropost, user: user)
+        end 
+        visit root_path
+      end
+
+      it { should have_selector('div.pagination') }
+
+      it "should list each user" do
+        user.microposts.paginate(page: 1).each do |micropost|
+          page.should have_selector('li', text: micropost.content)
+        end
+      end
+    end
 end
