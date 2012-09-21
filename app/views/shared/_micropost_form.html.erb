@@ -1,18 +1,8 @@
 <%= form_for(@micropost) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
-  <script>
-  function updateCountdown() {
-    // 140 is the max message length
-    var remaining = 140 - jQuery('.message').val().length;
-    jQuery('.countdown').text(remaining + ' characters remaining.');
-  }
-
-  jQuery(document).ready(function($) {
-    updateCountdown();
-    $('.message').change(updateCountdown);
-    $('.message').keyup(updateCountdown);
-  });
-  </script>
+  <% content_for :javascript_includes do %>
+    <%= javascript_include_tag "charCounter.js" %>
+  <% end %>
   <div>
     <%= f.text_area :content, placeholder: "Compose new micropost...", class: "message", rows: "4", cols: "30"%>
   </div>
