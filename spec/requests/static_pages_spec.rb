@@ -16,7 +16,7 @@ describe "Static pages" do
 
     it_should_behave_like "all static pages"
     it { should_not have_selector 'title', :text => '| Home' }
-    
+
     describe "for signed-in users" do
       let(:user) { FactoryGirl.create(:user) }
       before do
@@ -30,6 +30,14 @@ describe "Static pages" do
         user.feed.each do |item|
           page.should have_selector("li##{item.id}", text: item.content)
         end
+      end
+
+      it "should have number 2 of posts" do
+        should have_content user.microposts.count
+      end
+
+      it "should have pluralized post count" do
+        should have_content 'microposts'
       end
     end
   end

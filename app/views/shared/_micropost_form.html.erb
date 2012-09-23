@@ -1,7 +1,11 @@
 <%= form_for(@micropost) do |f| %>
   <%= render 'shared/error_messages', object: f.object %>
-  <div class="field">
-    <%= f.text_area :content, placeholder: "Compose new micropost..." %>
+  <% content_for :javascript_includes do %>
+    <%= javascript_include_tag "charCounter.js" %>
+  <% end %>
+  <div>
+    <%= f.text_area :content, placeholder: "Compose new micropost...", class: "message", rows: "4", cols: "30"%>
   </div>
+  <span class="countdown timestamp"></span>
   <%= f.submit "Post", class: "btn btn-large btn-primary" %>
 <% end %>
