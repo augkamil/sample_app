@@ -1,0 +1,14 @@
+<span class="content">
+	<p><%= wrap object.content %></p>
+	<p><%= link_to "Comments ...", micropost_path(object) %></p>
+	</span>
+    <span class="timestamp">
+      Posted <%= time_ago_in_words(object.created_at) %> ago.
+    </span>
+  <% if current_user?(object.user) || current_user.admin? %>
+  	<%= link_to "Edit", edit_micropost_path(object) %> 
+    <%= link_to "Delete", object, method: :delete,
+                                     data: { confirm: "You're sure?" },
+                                     title: object.content %>
+
+  <% end %>

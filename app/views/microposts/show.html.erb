@@ -1,0 +1,61 @@
+<div class="row">
+	<aside class="span4">
+      <section>
+        	<a href="<%= user_path(@micropost.user) %>">
+		  	<%= gravatar_for @micropost.user, size: 52 %>
+			</a>
+			<h1>
+		 	<%= @micropost.user.name %>
+			</h1>
+			<span>
+		  	<%= link_to "view my profile", @micropost.user %>
+			</span>
+      </section>
+      <section>
+	        <span class="content">
+			<p><%= wrap @micropost.content %></p>
+		    <span class="timestamp">
+		      Posted <%= time_ago_in_words(@micropost.created_at) %> ago.
+		    </span>
+			 <% if current_user?(@micropost.user) || current_user.admin? %>
+			  	<%= link_to "Edit", edit_micropost_path(@micropost) %> 
+			    <%= link_to "Delete", @micropost, method: :delete,
+			                                     data: { confirm: "You're sure?" },
+			                                     title: @micropost.content %>
+
+			 <% end %>
+      </section>
+      <section>
+      	<h3>Add a comment:</h3>
+		<%= form_for([@micropost, @micropost.comments.build]) do |f| %>
+		  <p>
+		    <%= f.label :commenter %><br />
+		    <%= f.text_field :commenter, placeholder: current_user.name %>
+		  </p>
+		  <p>
+		    <%= f.label :content %><br />
+		    <%= f.text_area :content, rows: "4", cols: "30" %>
+		  </p>
+		  <p>
+		    <%= f.submit %>
+		  </p>
+		<% end %>
+	  </section>
+    </aside>
+
+	
+
+	<div class="span8">
+		<h3>All comments:</h3>
+		<% if @micropost.comments.any? %>
+			<% @micropost.comments.each do |comment| %>
+			<section>
+				<span class="content">
+					<p>Comment: <%= comment.content %></p>
+					<p>User: <%= comment.commenter %></p>
+				</span>
+		    </section>
+			<% end %>
+		<% end %>
+	</div>
+</div>

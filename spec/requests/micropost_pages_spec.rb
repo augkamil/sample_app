@@ -37,7 +37,7 @@ describe "Micropost Pages" do
       before { visit root_path }
 
       it "should delete a micropost" do
-        expect { click_link "delete" }.to change(Micropost, :count).by(-1)
+        expect { click_link "Delete" }.to change(Micropost, :count).by(-1)
       end
     end
 
@@ -48,7 +48,7 @@ describe "Micropost Pages" do
         visit user_path(user2)
       end
 
-      it { should_not have_link('delete') }
+      it { should_not have_link('Delete') }
 
       it "should not be able to delete other users micropost" do
         expect { delete micropost_path(new_micropost) }.not_to change(Micropost, :count)

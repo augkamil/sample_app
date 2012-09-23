@@ -3,5 +3,5 @@
     <span class="user">
       <%= link_to feed_item.user.name, feed_item.user %>
     </span>
-    <%= render partial: 'shared/delete_link', locals: {object: feed_item} %>
+    <%= render partial: 'shared/micropost_content', locals: {object: feed_item} %>
 </li>
