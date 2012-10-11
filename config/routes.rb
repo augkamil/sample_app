@@ -3,7 +3,10 @@ SampleApp::Application.routes.draw do
   resources :sessions,   only: [:new, :create, :destroy]
   resources :microposts do
     resources :comments
+    resources :likes, only: [:new]
   end
+
+
   
   root to: 'static_pages#home'
 

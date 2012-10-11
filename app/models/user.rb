@@ -12,6 +12,8 @@
 class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation
   has_many :microposts, dependent: :destroy
+  has_many :likes, foreign_key: "liker_id"
+  has_many :liked_microposts, through: :likes, source: :liked_micropost
 
   has_secure_password
 

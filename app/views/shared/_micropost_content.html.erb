@@ -5,6 +5,16 @@
     <span class="timestamp">
       Posted <%= time_ago_in_words(object.created_at) %> ago.
     </span>
+    <span class="timestamp">
+        <% if object.likes.count > 0 %> 
+          <%= object.likes.count %> users are liking this post
+        <% else %>
+            Nobody likes it
+        <% end %>
+        <% if ( object.likes.nil? || object.likes.find_by_liker_id(current_user.id).nil? ) && !current_user?(object.user) %>
+          <%= link_to "Like it", new_micropost_like_path(object) || current_user == object.user %>
+        <% end %>
+      </span> 
   <% if current_user?(object.user) || current_user.admin? %>
   	<%= link_to "Edit", edit_micropost_path(object) %> 
     <%= link_to "Delete", object, method: :delete,

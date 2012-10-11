@@ -1,0 +1,10 @@
+<% @micropost %>
+<div class="liking_count">
+  <a href="<%= liking_micropost_path(@micropost) %>">
+    <strong id="liking_micropost" class="liking_count">
+      <%= @micropost.likers.count %>
+    </strong>
+    users liking this post 
+  </a>
+  </a>
+</div>
